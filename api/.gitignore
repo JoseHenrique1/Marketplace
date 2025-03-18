@@ -1,6 +1,6 @@
 /node_modules
 .env
 /prisma/dev.db
-/prisma/dev-journal.db
+/prisma/dev.db-journal
 create_module.sh
 create_project.sh
