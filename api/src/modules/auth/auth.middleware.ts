@@ -47,3 +47,7 @@ const signinMiddleware: RequestHandler = async (req, res, next) => {
   return;
 };
 
+export const middlewareAuth = {
+  signupMiddleware,
+  signinMiddleware,
+};
