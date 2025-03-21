@@ -4,7 +4,9 @@ import { ProductType } from "./product.types.ts";
 const getProducts = async (userId: string) => {
   const products = await prisma.product.findMany({
     where: {
-      userId
+      userId: {
+        not: userId
+      }
     }
   })
   return products;
@@ -21,11 +23,23 @@ const getProduct =async (userId: string, productId: string) => {
 };
 
 const postProduct = async(userId: string, data: ProductType) => {
-  return {};
+  const newData = {
+    userId,
+    ...data
+  }
+  const product = await prisma.product.create({
+    data: newData
+  })
+  return product;
 };
 
-const putProduct =async (id: string, data: ProductType) => {
-  const product = await prisma.product.create({
+const putProduct =async (userId: string, productId: string, data: ProductType) => {
+  
+  const product = await prisma.product.update({
+    where: {
+      userId,
+      id: productId
+    },
     data
   })
   return product;
