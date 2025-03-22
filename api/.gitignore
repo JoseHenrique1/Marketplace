@@ -4,3 +4,5 @@
 /prisma/dev.db-journal
 create_module.sh
 create_project.sh
+
+/upload
