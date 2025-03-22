@@ -6,8 +6,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 
 const getProducts: RequestHandler = async (req, res) => {
-	//Pegando todos os produtos que não são do usuario autenticado
-	const products = await serviceProduct.getProducts(req.user.id);
+	const products = await serviceProduct.getProducts();
 	res.status(200).json({ products });
 	return;
 };

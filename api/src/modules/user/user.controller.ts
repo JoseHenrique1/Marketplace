@@ -58,9 +58,9 @@ const patchImageUser: RequestHandler = async (req, res) => {
 
 	if (user?.image) {
 		const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const uploadDir = path.resolve(__dirname, "../../../upload");
-    const oldImagePath = path.join(uploadDir, path.basename(user.image));
+		const __dirname = path.dirname(__filename);
+		const uploadDir = path.resolve(__dirname, "../../../upload");
+		const oldImagePath = path.join(uploadDir, path.basename(user.image));
 		if (fs.existsSync(oldImagePath)) {
 			fs.unlinkSync(oldImagePath);
 		}
@@ -74,9 +74,18 @@ const patchImageUser: RequestHandler = async (req, res) => {
 	return;
 };
 
+const getProductsUser: RequestHandler = async (req, res) => {
+	const owner = req.params.owner as "me" | "others" | undefined;
+	const userId = req.user.id;
+	const products = serviceUser.getProductUser(userId, owner);
+	res.status(200).json(products);
+	return;
+};
+
 export const controllerUser = {
 	getUser,
 	putUser,
 	deleteUser,
 	patchImageUser,
+	getProductsUser,
 };
