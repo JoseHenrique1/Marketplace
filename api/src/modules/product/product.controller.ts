@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { serviceProduct } from "./product.service.ts";
 import { validatorProduct } from "./product.validators.ts";
+import path from "path";
 
 const getProducts: RequestHandler = async (req, res) => {
   //Pegando todos os produtos que não são do usuario autenticado
@@ -20,9 +21,27 @@ const getProduct: RequestHandler = async (req, res) => {
 };
 
 const postProduct: RequestHandler = async (req, res) => {
-  validatorProduct.productSchema.parse(req.body);
-  const data = req.body;
-  const product = await serviceProduct.postProduct(req.user.id, data);
+  const isAvailable = req.body.isAvailable === "true" ? true : false;
+  const data = {
+    ...req.body,
+    isAvailable 
+  }
+
+  validatorProduct.productPostAndPutSchema.parse(data);
+
+  if (!req.file) {
+    res.status(400).json({ msg: "Nenhum arquivo enviado." });
+    return;
+  }
+
+  const filePath = path.join("/upload", req.file.filename);
+
+  const newData = {
+    ...data,
+    image: filePath
+  };
+
+  const product = await serviceProduct.postProduct(req.user.id, newData);
   res.status(201).json({product});
   return;
 };
