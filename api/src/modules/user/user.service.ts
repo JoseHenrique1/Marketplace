@@ -30,8 +30,21 @@ const deleteUser = async (id: string) => {
   return user;
 };
 
+const patchImageUser = async (id: string, filePath: string) => {
+  const user = await prisma.user.update({
+    where: {
+      id
+    },
+    data: {
+      image: filePath
+    }
+  })
+  return user;
+};
+
 export const serviceUser = {
   getUserById,
   putUser,
   deleteUser,
+  patchImageUser
 };

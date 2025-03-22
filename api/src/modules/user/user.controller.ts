@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { serviceUser } from "./user.service.ts";
 import { validatorUser } from "./user.validators.ts";
+import path from "path";
 
 const getUser: RequestHandler = async (req, res) => {
 	const user = await serviceUser.getUserById(req.params.id);
@@ -45,8 +46,23 @@ const deleteUser: RequestHandler = async (req, res) => {
 	return;
 };
 
+const patchImageUser: RequestHandler = async (req, res) => {
+  if (!req.file) {
+    res.status(400).json({ msg: "Nenhum arquivo enviado." });
+    return;
+  }
+
+  const filePath = path.join("/upload", req.file.filename);
+
+  const user = await serviceUser.patchImageUser(req.params.id, filePath);
+
+	res.status(200).json({msg: "Imagem alterada com sucesso", user});
+	return;
+};
+
 export const controllerUser = {
 	getUser,
 	putUser,
 	deleteUser,
+  patchImageUser
 };
