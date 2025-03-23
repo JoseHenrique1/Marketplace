@@ -43,7 +43,7 @@ const patchImageUser = async (id: string, filePath: string) => {
 };
 
 const getProductUser = async (userId: string, owner: "me" | "others" | undefined) => {
-	const optionOthers = { where: { userId: { not: userId } } };
+	const optionOthers = { where: { userId: { not: userId }, isAvailable: true } };
 	const optionMe = { where: { userId } };
 	const optionSelected: Parameters<typeof prisma.product.findMany>[0] = owner === "others" ? optionOthers : optionMe;
 	const products = await prisma.product.findMany(optionSelected);

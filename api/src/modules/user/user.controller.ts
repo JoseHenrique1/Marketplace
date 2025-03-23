@@ -76,7 +76,7 @@ const patchImageUser: RequestHandler = async (req, res) => {
 
 const getProductsUser: RequestHandler = async (req, res) => {
 	const owner = req.params.owner as "me" | "others" | undefined;
-	const userId = req.user.id;
+	const userId = req.params.id;
 	const products = serviceUser.getProductUser(userId, owner);
 	res.status(200).json(products);
 	return;
