@@ -1,9 +1,11 @@
+import 'dotenv/config'
 import express from "express";
 import cors from "cors";
 import "express-async-errors";
 import { router } from "./modules/index.ts";
 import { errorHandler } from "./handler-error.ts";
 
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(cors())
@@ -13,4 +15,4 @@ app.use("/", router);
 
 app.use(errorHandler);
 
-app.listen(3333, () => console.log("Server is running on port 3333"));
+app.listen(4545, () => console.log(`Server is running. \nhttp://localhost:${PORT}`));
