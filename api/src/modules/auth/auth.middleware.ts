@@ -43,6 +43,8 @@ const signinMiddleware: RequestHandler = async (req, res, next) => {
     return;
   }
 
+  req.user = userExists;
+
   next();
   return;
 };

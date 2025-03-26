@@ -28,7 +28,12 @@ const signin: RequestHandler = async (req, res) => {
     expiresIn: "1d",
   });
 
-	res.status(200).json({token});
+	const user = {
+		email,
+		name : req.user.name
+	}
+
+	res.status(200).json({token, user});
 	return;
 };
 
