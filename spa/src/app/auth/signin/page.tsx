@@ -1,5 +1,7 @@
 "use client";
+import { api } from "@/utils/api";
 import Cookies from "js-cookie";
+import Link from "next/link";
 interface responseJson {
   token: string;
   user: {
@@ -13,24 +15,30 @@ export default function Signin() {
 		const email = event.currentTarget.email.value;
 		const password = event.currentTarget.password.value;
 
-		const base_url_api = process.env.NEXT_PUBLIC_URL_API;
-		const url = `${base_url_api}/auth/signin`;
-		console.log(url);
 
-		const req = await fetch(url, {
+		 /* const req = await api("/auth/signin", {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
 			body: JSON.stringify({ email, password }),
-		});
+		})  */
+
+			const req = await fetch("http://localhost:4545/auth/signin", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email, password }),
+			}); 
+	
+
+		console.log(JSON.stringify(req, null, 2));
+		
 
     if (req.status === 200) {
       const res : responseJson = await req.json();
       Cookies.set("token", res.token);
       Cookies.set("user", JSON.stringify(res.user));
-
-      
+			console.log(res);
+			
     }
 
 	};
@@ -41,6 +49,7 @@ export default function Signin() {
 				<input type="text" placeholder="Password" name="password" />
 				<button type="submit">enviar</button>
 			</form>
+			<Link href="/auth/signup">Criar Conta</Link>
 		</div>
 	);
 }
