@@ -3,11 +3,11 @@ import { api } from "@/utils/api";
 import Cookies from "js-cookie";
 import Link from "next/link";
 interface responseJson {
-  token: string;
-  user: {
-    name: string;
-    email: string;
-  }
+	token: string;
+	user: {
+		name: string;
+		email: string;
+	};
 }
 export default function Signin() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -15,32 +15,19 @@ export default function Signin() {
 		const email = event.currentTarget.email.value;
 		const password = event.currentTarget.password.value;
 
-
-		 /* const req = await api("/auth/signin", {
+		const req = await api("/auth/signin", {
 			method: "POST",
 			body: JSON.stringify({ email, password }),
-		})  */
-
-			const req = await fetch("http://localhost:4545/auth/signin", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email, password }),
-			}); 
-	
+		});
 
 		console.log(JSON.stringify(req, null, 2));
-		
 
-    if (req.status === 200) {
-      const res : responseJson = await req.json();
-      Cookies.set("token", res.token);
-      Cookies.set("user", JSON.stringify(res.user));
+		if (req.status === 200) {
+			const res: responseJson = await req.json();
+			Cookies.set("token", res.token);
+			Cookies.set("user", JSON.stringify(res.user));
 			console.log(res);
-			
-    }
-
+		}
 	};
 	return (
 		<div>
