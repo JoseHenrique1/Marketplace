@@ -8,5 +8,5 @@ export const routerProduct = Router();
 routerProduct.get("/", controllerProduct.getProducts);
 routerProduct.get("/:id", authentication, controllerProduct.getProduct);
 routerProduct.post("/", authentication, upload.single("image"), controllerProduct.postProduct);
-routerProduct.put("/:id", authentication, controllerProduct.putProduct);
+routerProduct.put("/:id", authentication, upload.single("image"), controllerProduct.putProduct);
 routerProduct.delete("/:id", authentication, controllerProduct.deleteProduct);
