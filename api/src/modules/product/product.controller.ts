@@ -17,6 +17,11 @@ const getProduct: RequestHandler = async (req, res) => {
 
 	const product = await serviceProduct.getProduct(req.user.id, productId);
 
+	if (!product) {
+		res.status(404).json({ message: "Product not found" });
+		return;
+	}
+
 	res.status(200).json({ product });
 	return;
 };
