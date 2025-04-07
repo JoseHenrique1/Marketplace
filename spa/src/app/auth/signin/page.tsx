@@ -1,7 +1,8 @@
-"use client";
 import { api } from "@/utils/api";
-import Cookies from "js-cookie";
+import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+
 interface responseJson {
 	token: string;
 	user: {
@@ -9,11 +10,12 @@ interface responseJson {
 		email: string;
 	};
 }
-export default function Signin() {
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const email = event.currentTarget.email.value;
-		const password = event.currentTarget.password.value;
+
+export default async function Signin() {
+	const handleSubmit = async (formData: FormData) => {
+		"use server";
+		const email = formData.get("email");
+		const password = formData.get("password");
 
 		const req = await api("/auth/signin", {
 			method: "POST",
@@ -24,14 +26,16 @@ export default function Signin() {
 
 		if (req.status === 200) {
 			const res: responseJson = await req.json();
-			Cookies.set("token", res.token);
-			Cookies.set("user", JSON.stringify(res.user));
+			const cookieStore = await cookies();
+			cookieStore.set("token", res.token);
+			cookieStore.set("user", JSON.stringify(res.user));
 			console.log(res);
+			redirect("/");
 		}
 	};
 	return (
 		<div>
-			<form onSubmit={handleSubmit}>
+			<form action={handleSubmit}>
 				<input type="text" placeholder="Email" name="email" />
 				<input type="text" placeholder="Password" name="password" />
 				<button type="submit">enviar</button>
