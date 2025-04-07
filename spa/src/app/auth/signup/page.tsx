@@ -1,49 +1,40 @@
-"use client";
 import { api } from "@/utils/api";
-import Cookies from "js-cookie";
-interface responseJson {
-	token: string;
-	user: {
-		name: string;
-		email: string;
-	};
-}
-export default function Signup() {
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const name = event.currentTarget.nameUser.value;
-		const password = event.currentTarget.password.value;
-		const email = event.currentTarget.email.value;
-		const whatsapp = event.currentTarget.whatsapp.value;
-		const city = event.currentTarget.city.value;
-		const state = event.currentTarget.state.value;
 
-		const data = { 
+
+export default function Signup() {
+	const handleSubmit = async (formData: FormData) => {
+		"use server";
+		const name = formData.get("nameUser");
+		const password = formData.get("password");
+		const email = formData.get("email");
+		const whatsapp = formData.get("whatsapp");
+		const city = formData.get("city");
+		const state = formData.get("state");
+
+		const data = {
 			name,
-			email, 
+			email,
 			password,
 			whatsapp,
 			city,
-			state }
-			console.log(data);
-			
+			state,
+		};
 
 		const req = await api("/auth/signup", {
 			method: "POST",
 			body: JSON.stringify(data),
 		});
 
-		console.log(JSON.stringify(req, null, 2));
+		console.log("res - "+req.status+req);
 
-		if (req.status === 200) {
-			const res: responseJson = await req.json();
-			Cookies.set("token", res.token);
-			Cookies.set("user", JSON.stringify(res.user));
+		if (req.status === 201) {
+			const res = await req.json();
+			console.log("res 201 - ok\n"+JSON.stringify(res, null, 2));
 		}
 	};
 	return (
 		<div>
-			<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+			<form action={handleSubmit} className="flex flex-col gap-4">
 				<input type="text" placeholder="Name" name="nameUser" />
 				<input type="text" placeholder="Email" name="email" />
 				<input type="text" placeholder="Password" name="password" />
@@ -55,13 +46,3 @@ export default function Signup() {
 		</div>
 	);
 }
-
-/*
-name: ZodString;
-    email: ZodString;
-    password: ZodString;
-    image: ZodOptional<ZodString>;
-    whatsapp: ZodString;
-    city: ZodString;
-    state: ZodString;
-*/
