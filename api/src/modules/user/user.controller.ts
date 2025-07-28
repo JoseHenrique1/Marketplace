@@ -4,6 +4,8 @@ import { validatorUser } from "./user.validators.ts";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import { log } from "console";
+import { UPLOAD_DIR } from "../share/multer.config.ts";
 
 const getUser: RequestHandler = async (req, res) => {
 	const user = await serviceUser.getUserById(req.params.id);
@@ -49,6 +51,7 @@ const deleteUser: RequestHandler = async (req, res) => {
 };
 
 const patchImageUser: RequestHandler = async (req, res) => {
+  log(req.file  );
 	if (!req.file) {
 		res.status(400).json({ msg: "Nenhum arquivo enviado." });
 		return;
@@ -59,8 +62,7 @@ const patchImageUser: RequestHandler = async (req, res) => {
 	if (user?.image) {
 		const __filename = fileURLToPath(import.meta.url);
 		const __dirname = path.dirname(__filename);
-		const uploadDir = path.resolve(__dirname, "../../../upload");
-		const oldImagePath = path.join(uploadDir, path.basename(user.image));
+		const oldImagePath = path.join(UPLOAD_DIR, path.basename(user.image));
 		if (fs.existsSync(oldImagePath)) {
 			fs.unlinkSync(oldImagePath);
 		}

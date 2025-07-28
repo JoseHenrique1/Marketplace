@@ -15,4 +15,4 @@ app.use("/", router);
 
 app.use(errorHandler);
 
-app.listen(4545, () => console.log(`Server is running. \nhttp://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server is running. \nhttp://localhost:${PORT}`));
