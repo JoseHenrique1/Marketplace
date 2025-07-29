@@ -5,8 +5,15 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 
+const PORT = process.env.PORT;
+
 const getProducts: RequestHandler = async (req, res) => {
-	const products = await serviceProduct.getProducts();
+  const products = (await serviceProduct.getProducts()).map((product) => {
+    return {
+      ...product,
+      image: `http://localhost:${PORT}/${product.image}`
+    };
+  });
 	res.status(200).json({ products });
 	return;
 };
@@ -15,22 +22,29 @@ const getProduct: RequestHandler = async (req, res) => {
 	validatorProduct.idValidator.parse(req.params);
 	const { id: productId } = req.params;
 
-	const product = await serviceProduct.getProduct(req.user.id, productId);
+	const product = await serviceProduct.getProduct(productId);
 
 	if (!product) {
 		res.status(404).json({ message: "Product not found" });
 		return;
 	}
 
-	res.status(200).json({ product });
+  const productWithImage = {
+    ...product,
+    image: `http://localhost:${PORT}/${product.image}`
+  };
+  
+	res.status(200).json({ product: productWithImage });
 	return;
 };
 
 const postProduct: RequestHandler = async (req, res) => {
 	const isAvailable = req.body.isAvailable === "true" ? true : false;
+  const price = req.body.price ? Number(req.body.price) : 0
 	const data = {
 		...req.body,
 		isAvailable,
+    price
 	};
 	validatorProduct.productPostAndPutSchema.parse(data);
 
@@ -51,19 +65,26 @@ const postProduct: RequestHandler = async (req, res) => {
 
 const putProduct: RequestHandler = async (req, res) => {
 	const isAvailable = req.body.isAvailable === "true" ? true : false;
+  const price = req.body.price ? Number(req.body.price) : 0
 	const data = {
 		...req.body,
 		isAvailable,
+    price
 	};
-	validatorProduct.productSchema.parse(data);
+	validatorProduct.productPostAndPutSchema.parse(data);
 	validatorProduct.idValidator.parse(req.params);
 	const { id: productId } = req.params;
 
-	const productExists = await serviceProduct.getProduct(req.user.id, productId);
+	const productExists = await serviceProduct.getProduct(productId);
 	if (!productExists) {
 		res.status(404).json({ message: "Product not found" });
 		return;
 	}
+  if (productExists.userId !== req.user.id) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+    
+  }
 	
 	let newFilePath = productExists.image;
 	if (req.file) {

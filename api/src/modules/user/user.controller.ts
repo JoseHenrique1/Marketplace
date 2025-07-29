@@ -3,14 +3,14 @@ import { serviceUser } from "./user.service.ts";
 import { validatorUser } from "./user.validators.ts";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
 import { log } from "console";
 import { UPLOAD_DIR } from "../share/multer.config.ts";
 
 const getUser: RequestHandler = async (req, res) => {
 	const user = await serviceUser.getUserById(req.params.id);
 	validatorUser.IdValidator.parse(req.params);
-	res.status(200).json(user);
+  user?.image && (user.image = `http://localhost:${process.env.PORT}${user.image}`);
+	res.status(200).json({user});
 	return;
 };
 
@@ -60,8 +60,6 @@ const patchImageUser: RequestHandler = async (req, res) => {
 	const user = await serviceUser.getUserById(req.params.id);
 
 	if (user?.image) {
-		const __filename = fileURLToPath(import.meta.url);
-		const __dirname = path.dirname(__filename);
 		const oldImagePath = path.join(UPLOAD_DIR, path.basename(user.image));
 		if (fs.existsSync(oldImagePath)) {
 			fs.unlinkSync(oldImagePath);
@@ -71,8 +69,13 @@ const patchImageUser: RequestHandler = async (req, res) => {
 	const filePath = path.join("/upload", req.file.filename);
 
 	const userUpdated = await serviceUser.patchImageUser(req.params.id, filePath);
+  const userUpdatedWithImage = {
+    ...userUpdated,
+    image: `http://localhost:${process.env.PORT}${userUpdated.image}`
+  };
+  
 
-	res.status(200).json({ msg: "Imagem alterada com sucesso", user: userUpdated });
+	res.status(200).json({ msg: "Imagem alterada com sucesso", user: userUpdatedWithImage });
 	return;
 };
 
