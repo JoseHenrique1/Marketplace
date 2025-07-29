@@ -1,11 +1,14 @@
-
+import { BrowserRouter } from "react-router"
+import Router from "./router"
+import AuthenticationManagerWrapper from "./components/organisms/authentication-manager-wrapper"
 
 function App() {
-
   return (
-    <>
-      <h1 className="text-3xl font-bold ">asas</h1>
-    </>
+    <BrowserRouter>
+      <AuthenticationManagerWrapper>
+        <Router />
+      </AuthenticationManagerWrapper>
+    </BrowserRouter>
   )
 }
 
