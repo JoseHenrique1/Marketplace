@@ -1,3 +1,4 @@
+import { InterestStatus } from "@prisma/client";
 import { prisma } from "../../database/prisma.ts";
 import { InterestType } from "./interest.types.ts";
 
@@ -36,9 +37,26 @@ const deleteInterest = async (productId: string, userId: string) => {
     return interest;
 }
 
+const patchInterest = async (data: InterestType) => {
+    
+    const interest = await prisma.interest.update({
+        where: {
+            userId_productId: {
+                userId: data.userId,
+                productId: data.productId
+            }
+        },
+        data: {
+            status: data.status
+        }
+    });
+    return interest;
+};
+
 export const interestService = {
     postInterest,
     getInterestPerUser,
     getInterestPerProduct,
-    deleteInterest
+    deleteInterest,
+    patchInterest
 };
