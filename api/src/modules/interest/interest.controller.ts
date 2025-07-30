@@ -22,8 +22,10 @@ const getInterestPerProduct: RequestHandler = async (req, res) => {
 }
 
 const getInterestPerUser: RequestHandler = async (req, res) => {
+    console.log("a")
     validatorInterest.idValidator.parse(req.params);
     const { id: userId } = req.params;
+    console.log(userId);
     const interests = await interestService.getInterestPerUser(userId);
     res.status(200).json({interests});
 }

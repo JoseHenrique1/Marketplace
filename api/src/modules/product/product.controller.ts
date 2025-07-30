@@ -28,8 +28,10 @@ const getProduct: RequestHandler = async (req, res) => {
 
 const postProduct: RequestHandler = async (req, res) => {
 	const isAvailable = req.body.isAvailable === "true" ? true : false;
+	console.log(parseFloat(req.body.price));
 	const data = {
 		...req.body,
+		price: parseFloat(req.body.price),
 		isAvailable,
 	};
 	validatorProduct.productPostAndPutSchema.parse(data);
