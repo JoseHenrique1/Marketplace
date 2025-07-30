@@ -3,7 +3,7 @@ import { InterestType } from "./interest.types.ts";
 
 const postInterest = async (data: InterestType) => {
     const interest = await prisma.interest.create({ data });
-	return interest;
+    return interest;
 }
 
 const getInterestPerUser = async (userId: string) => {
@@ -24,8 +24,21 @@ const getInterestPerProduct = async (productId: string) => {
     return interests;
 }
 
+const deleteInterest = async (productId: string, userId: string) => {
+    const interest = await prisma.interest.delete({
+        where: {
+            userId_productId: {
+                userId,
+                productId
+            }
+        }
+    });
+    return interest;
+}
+
 export const interestService = {
     postInterest,
     getInterestPerUser,
-    getInterestPerProduct
+    getInterestPerProduct,
+    deleteInterest
 };
