@@ -10,11 +10,20 @@ const getProducts = async () => {
 	return products;
 };
 
-const getProduct = async (userId: string, productId: string) => {
+const getProduct = async (productId: string) => {
 	const product = await prisma.product.findUnique({
 		where: {
-			userId,
-			id: productId,
+			id: productId
+		},
+	});
+	return product;
+};
+
+const getProductByUserId = async (userId: string, productId: string) => {
+	const product = await prisma.product.findUnique({
+		where: {
+			userId, //productId, serve para pegar o produto pelo id do usuário logado
+			id: productId
 		},
 	});
 	return product;
@@ -58,4 +67,5 @@ export const serviceProduct = {
 	postProduct,
 	putProduct,
 	deleteProduct,
+  getProductByUserId
 };

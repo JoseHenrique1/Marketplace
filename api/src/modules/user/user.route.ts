@@ -8,4 +8,8 @@ routerUser.get("/:id", authentication, controllerUser.getUser);
 routerUser.put("/:id", authentication, controllerUser.putUser);
 routerUser.delete("/:id", authentication, controllerUser.deleteUser);
 routerUser.patch("/:id/image", authentication, upload.single("image"), controllerUser.patchImageUser);
-routerUser.patch("/:id/products", authentication, upload.single("image"), controllerUser.getProductsUser);
+
+//recebe um query params owner("others" ou "me")
+//se for "me" retorna apenas os produtos do usuário com :id da rota
+//se for "others" retorna apenas os produtos de outros usuários, exceto o usuário com :id da rota
+routerUser.get("/:id/products", authentication, controllerUser.getProductsUser);
