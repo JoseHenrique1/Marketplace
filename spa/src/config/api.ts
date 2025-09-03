@@ -1,12 +1,23 @@
+import { useAuthStore } from "@/stores/auth-store";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://localhost:4545'
+  baseURL: 'http://localhost:3000'
 });
 
-api.interceptors.response.use(undefined, async (error) => {
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => response, 
+  async (error) => {
   if (error.response?.status === 401) {
-    console.error('401: Não autorizado'); // Reenvia a requisição original
+    useAuthStore.getState().logout();
   }
 });
 
