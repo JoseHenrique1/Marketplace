@@ -1,8 +1,10 @@
 import { Route, Routes } from 'react-router'
-import { Home } from './pages/home'
-import { Signup } from './pages/signup'
 import { PrivateRouteWrapper } from './components/organisms/private-route-wrapper'
+
+import { Home } from './pages/home'
 import { Profile } from './pages/profile'
+import { Signup } from './pages/signup'
+import { Signin } from './pages/signin'
 
 export default function Router() {
   return (
@@ -13,7 +15,7 @@ export default function Router() {
       </Route>
 
       <Route element={<PrivateRouteWrapper expectedAuthenticateStatus={false} />}>
-        <Route path="/auth/signin" element={<Signup />} />
+        <Route path="/auth/signin" element={<Signin />} />
         <Route path="/auth/signup" element={<Signup />} />
       </Route>
 

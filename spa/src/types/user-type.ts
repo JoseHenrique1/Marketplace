@@ -9,9 +9,17 @@ interface User {
   password: string;
 }
 
-type UserSigninDto = Omit<User, 'password'|'image' | 'id'|'whatsapp'|'city'|'state'>
+type UserSigninDto = Omit<User, 'name' | 'image' | 'id' | 'whatsapp' | 'city' | 'state'>
+
+type UserCreateDto = Omit<User, 'id' | 'image'>
+
+interface Token {
+  token: string
+}
 
 export type {
   User,
-  UserSigninDto
+  UserSigninDto,
+  UserCreateDto,
+  Token
 }

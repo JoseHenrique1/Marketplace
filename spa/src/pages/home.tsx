@@ -6,7 +6,7 @@ export function Home() {
   useEffect(()=>{
     async function getProducts() {
       const response = await api.get<{products: Product[]}>('/products')
-      console.log(JSON.stringify(response.data.products[0].name, null, 2));
+      console.log(response.data);
     }
     getProducts()
   },[])
