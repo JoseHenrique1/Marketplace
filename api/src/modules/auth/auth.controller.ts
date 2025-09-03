@@ -37,7 +37,14 @@ const signin: RequestHandler = async (req, res) => {
 	return;
 };
 
+const getProfile: RequestHandler = async (req, res) => {
+  const { user } = req
+	res.status(200).json({user});
+	return;
+};
+
 export const controllerAuth = {
 	signup,
 	signin,
+  getProfile
 };
