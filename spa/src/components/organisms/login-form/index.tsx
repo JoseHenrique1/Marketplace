@@ -18,14 +18,14 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  
+
   const [user, setUser] = useState<UserSigninDto>({
     email: "",
     password: "",
   })
 
-  const {user: userStore, login} = useAuthStore()
-  
+  const { login } = useAuthStore()
+
 
   const handleOnSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()

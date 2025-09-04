@@ -24,7 +24,7 @@ export function SignupForm({
     email: "maria@gmail.com",
     password: "senha123",
     city: "Cajazeiras",
-    state: "Paraiba",
+    state: "PB",
     name: "maria",
     whatsapp: "+55 83 12345-1234",
   })
@@ -36,8 +36,10 @@ export function SignupForm({
 
     if (newUser) {
       console.log(newUser);
-      navigate("/auth/signin");
-      
+      navigate("/auth/signin"); 
+    }
+    else {
+      alert("Error no cadastro")
     }
   }
   return (
