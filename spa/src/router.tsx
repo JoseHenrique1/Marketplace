@@ -5,6 +5,7 @@ import { Home } from './pages/home'
 import { Profile } from './pages/profile'
 import { Signup } from './pages/signup'
 import { Signin } from './pages/signin'
+import { Discover } from './pages/discover'
 
 export default function Router() {
   return (
@@ -12,6 +13,8 @@ export default function Router() {
 
       <Route element={<PrivateRouteWrapper expectedAuthenticateStatus={true} />}>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/interest" element={<Profile />} />
       </Route>
 
       <Route element={<PrivateRouteWrapper expectedAuthenticateStatus={false} />}>
@@ -20,6 +23,7 @@ export default function Router() {
       </Route>
 
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<Home />} />
       <Route path="*" element={<div>não encontrado</div>} />
     </Routes>
   )

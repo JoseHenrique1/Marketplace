@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Logo } from "@/components/atoms/logo";
 import { Navbar } from "@/components/molecules/navbar";
 import { Dropdown } from "@/components/molecules/dropdown";
-import { Menu, MenuIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { Link } from "react-router";
 
 export function Header() {
