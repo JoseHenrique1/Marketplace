@@ -1,8 +1,12 @@
 import { Card } from "@/components/molecules/card";
+import { ProductDetails } from "@/components/molecules/product-details";
 import LayoutDefault from "@/components/organisms/layout-default";
+import { useState } from "react";
 
 export function Discover() {
-  const array = [1, 2, 3, 4, 5, 6, 7]
+  const array = [1, 2]
+  const [show, setShow] = useState(false);
+
   return (
     <LayoutDefault>
       <div>
@@ -12,6 +16,7 @@ export function Discover() {
           ))}
         </div>
       </div>
+      <ProductDetails />
     </LayoutDefault>
 
   )

@@ -1,3 +1,4 @@
+import { Footer } from '@/components/molecules/footer'
 import { Header } from '../header'
 
 interface props {
@@ -9,9 +10,7 @@ export default function LayoutDefault({ children }: props) {
     <div className='min-h-screen grid grid-rows-[auto_1fr_auto]'>
       <Header />
       {children}
-      <footer>
-        Marketplace
-      </footer>
+      <Footer />
     </div>
   )
 }
