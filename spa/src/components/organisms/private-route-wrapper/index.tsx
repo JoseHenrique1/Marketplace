@@ -7,6 +7,9 @@ interface props {
 export function PrivateRouteWrapper({expectedAuthenticateStatus = true}: props) {
   const { isAuthenticated, isLoading } = useAuthStore();
 
+  console.log("PrivateRouteWrapper", isAuthenticated, "expected" , expectedAuthenticateStatus);
+  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }

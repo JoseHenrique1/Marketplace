@@ -6,6 +6,7 @@ import { Profile } from './pages/profile'
 import { Signup } from './pages/signup'
 import { Signin } from './pages/signin'
 import { Discover } from './pages/discover'
+import { Inventory } from './pages/invetory'
 
 export default function Router() {
   return (
@@ -15,6 +16,7 @@ export default function Router() {
         <Route path="/profile/:email" element={<Profile />} />
         <Route path="/discover" element={<Discover />} />
         <Route path="/interest" element={<Profile />} />
+        <Route path="/inventory" element={<Inventory />} />
       </Route>
 
       <Route element={<PrivateRouteWrapper expectedAuthenticateStatus={false} />}>
