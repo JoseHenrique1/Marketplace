@@ -4,6 +4,10 @@ const IdValidator = z.object({
   id: z.string().uuid(),
 });
 
+const EmailValidator = z.object({
+  email: z.string().email(),
+});
+
 export const UserPutValidator = z.object({
   name: z.string().min(1, "Name is required").optional(),
   whatsapp: z
@@ -21,5 +25,6 @@ export const UserSigninValidator = z.object({
 
 export const validatorUser = {
   IdValidator,
+  EmailValidator,
   UserPutValidator
 };

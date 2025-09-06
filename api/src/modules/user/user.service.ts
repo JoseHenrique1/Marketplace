@@ -10,6 +10,15 @@ const getUserById = async (id: string) => {
 	return user;
 };
 
+const getUserByEmail = async (email: string) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			email,
+		},
+	});
+	return user;
+};
+
 const putUser = async (id: string, data: UserPutType) => {
 	const user = await prisma.user.update({
 		where: {
@@ -56,4 +65,5 @@ export const serviceUser = {
 	deleteUser,
 	patchImageUser,
 	getProductUser,
+  getUserByEmail
 };

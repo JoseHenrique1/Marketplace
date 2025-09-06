@@ -7,8 +7,8 @@ import { log } from "console";
 import { UPLOAD_DIR } from "../share/multer.config.ts";
 
 const getUser: RequestHandler = async (req, res) => {
-	const user = await serviceUser.getUserById(req.params.id);
-	validatorUser.IdValidator.parse(req.params);
+	const user = await serviceUser.getUserByEmail(req.params.email);
+	validatorUser.EmailValidator.parse(req.params);
   user?.image && (user.image = `http://localhost:${process.env.PORT}${user.image}`);
 	res.status(200).json({user});
 	return;
