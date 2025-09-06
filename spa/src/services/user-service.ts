@@ -38,9 +38,23 @@ async function getProfile() {
   return null;
 }
 
+async function getUser(email: string) {
+  try {
+    const response = await api.get<{user:User}>(`/users/${email}`)
+    
+    if (!response || response.status !== 200) throw new Error('Não autorizado');
+    
+    return response.data.user;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+
 export {
   getToken,
   signin,
   signup,
+  getUser,
   getProfile
 }

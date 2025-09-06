@@ -1,11 +1,23 @@
-import { LogOutIcon } from 'lucide-react'
+import { LogOutIcon, SunDimIcon } from 'lucide-react'
 import { Item } from './item'
 import { useState } from 'react';
+import { useAuthStore } from '@/stores/auth-store';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router';
+import defaultImage from "../../../assets/img/user-image-default.png";
 
 export function Dropdown() {
   const [open, setOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuthStore()
 
-  const imgClassName =open ? "size-10 object-cover rounded-full border-2 border-blue-500" : "size-10 object-cover ";
+  const imgClassName = open ? "size-10 object-cover rounded-full border-2 border-blue-500" : "size-10 object-cover ";
+
+  if (!isAuthenticated) return (
+    <Link to="auth/signin">
+      <Button>Entrar</Button>
+    </Link>
+  )
+
   return (
     <div className="relative md:flex h-auto">
       <div
@@ -15,7 +27,7 @@ export function Dropdown() {
         <span className="sr-only">Toggle dashboard menu</span>
 
         <img
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={user?.image || defaultImage}
           alt=""
           className={imgClassName}
         />
@@ -26,11 +38,19 @@ export function Dropdown() {
         role="menu"
       >
         <div className="p-2">
-          <Item label="My account" url="/profile" />
-          <Item label="Settings" url="/settings" />
+          <Item label="My account" url={`/profile/${user?.email}`} />
 
           <button
-            type="submit"
+            onClick={logout}
+            className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50 dark:text-red-500 dark:hover:bg-red-600/10"
+            role="menuitem"
+          >
+            <SunDimIcon size={18} /> 
+            Claro
+          </button>
+
+          <button
+            onClick={logout}
             className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50 dark:text-red-500 dark:hover:bg-red-600/10"
             role="menuitem"
           >

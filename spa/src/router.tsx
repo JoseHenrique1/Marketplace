@@ -12,7 +12,7 @@ export default function Router() {
     <Routes>
 
       <Route element={<PrivateRouteWrapper expectedAuthenticateStatus={true} />}>
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:email" element={<Profile />} />
         <Route path="/discover" element={<Discover />} />
         <Route path="/interest" element={<Profile />} />
       </Route>
