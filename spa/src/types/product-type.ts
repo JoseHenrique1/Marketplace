@@ -1,4 +1,4 @@
-interface Product {
+export interface Product {
   id: string;
   image: string;
   name: string;
@@ -6,7 +6,4 @@ interface Product {
   isAvailable: boolean;
   description: string;
   userId: string;
-}
-export type {
-  Product
 }
