@@ -7,7 +7,7 @@ import { Link } from "react-router";
 
 export function Header() {
   const [show, setShow] = useState(false);
-  
+
   const handleShow = () => setShow(!show);
   return (
     <header className="bg-white dark:bg-gray-900">
@@ -15,10 +15,9 @@ export function Header() {
         <div className="py-2 gap-2 flex flex-wrap justify-between  min-h-16 md:gap-6 md:items-center md:flex-row md:justify-between">
 
           <div className="order-1 self-center md:flex-1">
-            <Link className=" text-teal-600 dark:text-teal-300" to="/">
-            <span className="sr-only">Home</span>
-            <Logo />
-          </Link>
+            <Link className="text-teal-600 dark:text-teal-300 w-min" to="/">
+              <Logo />
+            </Link>
           </div>
 
           <Navbar show={show} />
