@@ -4,6 +4,7 @@ import type { User } from "@/types/user-type";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import defaultImage from "../assets/img/user-image-default.png";
+import { EditIcon } from "lucide-react";
 
 export function Profile() {
   let { email: emailParams } = useParams();
@@ -31,6 +32,7 @@ export function Profile() {
         </div>
 
         <div className="shrink w-full md:w-auto md:py-4 space-y-4">
+          <EditIcon />
           <div>
             <h1 className="text-2xl font-semibold">Localidade</h1>
             <p>Estado: {user?.state}</p>

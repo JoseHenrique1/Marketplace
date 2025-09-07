@@ -36,7 +36,7 @@ export function ProductCreateModal() {
         onClick={open}
         className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-black/30"
       >
-        Open dialog
+        Novo
       </Button>
 
       <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={close} __demoMode>

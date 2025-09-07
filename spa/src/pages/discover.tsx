@@ -9,13 +9,15 @@ export function Discover() {
 
   return (
     <LayoutDefault>
-      <div className="pb-4 lg:pb-8">
+      <div className="py-4 lg:pb-8">
         <Input type="text" className="w-full md:max-w-md" placeholder="Busque um produto"/>
       </div>
       <div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
           {otherProducts.map((item) => (
-            <CardProduct {...item} key={item.id} />
+            <CardProduct 
+              {...item} 
+              key={item.id} />
           ))}
         </div>
       </div>
