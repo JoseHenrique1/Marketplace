@@ -13,10 +13,15 @@ export function Dropdown() {
   const imgClassName = open ? "size-10 object-cover rounded-full border-2 border-blue-500" : "size-10 object-cover ";
 
   if (!isAuthenticated) return (
-    <Link to="auth/signin">
+    <Link to="/auth/signin">
       <Button>Entrar</Button>
     </Link>
   )
+
+  const handleLogout = () => {
+    logout()
+    localStorage.removeItem('token');
+  }
 
   return (
     <div className="relative md:flex h-auto">
@@ -41,7 +46,7 @@ export function Dropdown() {
           <Item label="My account" url={`/profile/${user?.email}`} />
 
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50 dark:text-red-500 dark:hover:bg-red-600/10"
             role="menuitem"
           >
@@ -50,7 +55,7 @@ export function Dropdown() {
           </button>
 
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50 dark:text-red-500 dark:hover:bg-red-600/10"
             role="menuitem"
           >

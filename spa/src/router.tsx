@@ -7,6 +7,8 @@ import { Signup } from './pages/signup'
 import { Signin } from './pages/signin'
 import { Discover } from './pages/discover'
 import { Inventory } from './pages/invetory'
+import { About } from './pages/about'
+import { Interest } from './pages/interest'
 
 export default function Router() {
   return (
@@ -15,7 +17,7 @@ export default function Router() {
       <Route element={<PrivateRouteWrapper expectedAuthenticateStatus={true} />}>
         <Route path="/profile/:email" element={<Profile />} />
         <Route path="/discover" element={<Discover />} />
-        <Route path="/interest" element={<Profile />} />
+        <Route path="/interest" element={<Interest />} />
         <Route path="/inventory" element={<Inventory />} />
       </Route>
 
@@ -25,7 +27,7 @@ export default function Router() {
       </Route>
 
       <Route path="/" element={<Home />} />
-      <Route path="/about" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="*" element={<div>não encontrado</div>} />
     </Routes>
   )
