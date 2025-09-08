@@ -58,7 +58,11 @@ const postProduct: RequestHandler = async (req, res) => {
 		image: filePath,
 	};
 
-	const product = await serviceProduct.postProduct(req.user.id, newData);
+	const productCreated = await serviceProduct.postProduct(req.user.id, newData);
+  const product = {
+    ...productCreated,
+    image: `http://localhost:${PORT}/${productCreated.image}`
+  }
 	res.status(201).json({ product });
 	return;
 };
