@@ -9,7 +9,7 @@ import { useProduct } from '@/hooks/useProduct'
 
 export function ProductCreateModal() {
   let [isOpen, setIsOpen] = useState(false);
-  const { handleCreateProduct } = useProduct();
+  const { handleCreateProduct } = useProduct({});
 
   function open() {
     setIsOpen(true)

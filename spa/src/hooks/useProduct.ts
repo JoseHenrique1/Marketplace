@@ -1,13 +1,18 @@
-import { createProduct, deleteProduct, getAllProducts } from "@/services/product-service";
+import { createProduct, deleteProduct, editProduct, getAllProducts } from "@/services/product-service";
 import { useAuthStore } from "@/stores/auth-store";
 import { useProductStore } from "@/stores/product-store";
 import { useEffect, useMemo } from "react";
 
-export function useProduct() {
+interface props {
+  fetchingProductsOnMount?: boolean
+}
+
+export function useProduct({ fetchingProductsOnMount=false }: props) {
   const {
     products,
     setProducts,
     addProduct,
+    updateProduct,
     deleteProduct: deleteProductStore
   } = useProductStore();
 
@@ -25,6 +30,12 @@ export function useProduct() {
     product && addProduct(product);
   }
 
+  const handleEditProduct = async (productId: string, productFormData: FormData) => {
+    const product = await editProduct(productId, productFormData);
+    product && updateProduct(productId, product);
+
+  }
+
   const handleDeleteProduct = async (id: string) => {
     const productDeleted = await deleteProduct(id);
     productDeleted && deleteProductStore(id);
@@ -40,11 +51,11 @@ export function useProduct() {
   );
 
   const getProductById = (id: string) => products.find(product => product.id === id);
-    
+
 
   useEffect(() => {
-    products.length === 0 && handleLoadProducts();
-  }, [products])
+    products.length === 0 && fetchingProductsOnMount && handleLoadProducts();
+  }, [fetchingProductsOnMount])
 
   return {
     allProducts: products,
@@ -52,6 +63,7 @@ export function useProduct() {
     otherProducts,
     handleLoadProducts,
     handleCreateProduct,
+    handleEditProduct,
     handleDeleteProduct,
     getProductById
   }

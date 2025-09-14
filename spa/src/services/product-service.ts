@@ -32,6 +32,23 @@ export async function createProduct(productFormData: FormData) {
   return null;
 }
 
+export async function editProduct(productId: string, productFormData: FormData) {
+  try {
+    const response = await api.put<{product:Product}>(`/products/${productId}`, productFormData)
+    
+    if (!response || response.status !== 201) {
+      console.log(response);
+      throw new Error('Não autorizado')
+    };
+    console.log(response.data);
+    
+    return response.data.product;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+
 export async function deleteProduct(id: string) {
   try {
     const response = await api.delete(`/products/${id}`)
