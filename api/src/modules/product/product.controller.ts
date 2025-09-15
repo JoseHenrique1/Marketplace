@@ -108,7 +108,12 @@ const putProduct: RequestHandler = async (req, res) => {
 	};
 	const productUpdated = await serviceProduct.putProduct(req.user.id, productId, newData);
 
-	res.status(200).json({ product: productUpdated });
+  const product = {
+    ...productUpdated,
+    image: `http://localhost:${PORT}/${productUpdated.image}`
+  }
+
+	res.status(200).json({ product });
 	return;
 };
 
