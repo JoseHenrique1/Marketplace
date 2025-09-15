@@ -12,7 +12,7 @@ interface props {
 export function ProductDetails({ productsAreMine = false }: props) {
   const { isAuthenticated, user } = useAuthStore();
   const { productId, isOpen, handleClose } = useProductDetails();
-  const { allProducts,handleEditProduct } = useProduct({});
+  const { allProducts, handleEditProduct, handleDeleteProduct } = useProduct({});
 
   const product = allProducts.find(p => p.id === productId)
   const isOwner = isAuthenticated && user?.id === product?.userId
@@ -27,7 +27,12 @@ export function ProductDetails({ productsAreMine = false }: props) {
 
   if (isOwner) {
     return (
-      <ProductEdit product={product} isOpen={isOpen} handleClose={handleClose} handleEdit={handleEditProduct} />
+      <ProductEdit
+        product={product}
+        isOpen={isOpen}
+        handleClose={handleClose}
+        handleEdit={handleEditProduct}
+        handleDelete={handleDeleteProduct} />
     )
   }
 

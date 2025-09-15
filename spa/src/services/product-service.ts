@@ -36,7 +36,7 @@ export async function editProduct(productId: string, productFormData: FormData) 
   try {
     const response = await api.put<{product:Product}>(`/products/${productId}`, productFormData)
     
-    if (!response || response.status !== 201) {
+    if (!response || response.status !== 200) {
       console.log(response);
       throw new Error('Não autorizado')
     };

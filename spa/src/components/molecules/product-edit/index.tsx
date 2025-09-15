@@ -13,19 +13,31 @@ interface props {
   isOpen: boolean;
   handleClose: () => void;
   handleEdit: (productId: string, productFormData: FormData) => void;
+  handleDelete: (productId: string) => void;
 }
 
-export function ProductEdit({ product, isOpen, handleClose, handleEdit }: props) {
+export function ProductEdit({ product, isOpen, handleClose, handleEdit, handleDelete }: props) {
   console.dir(product)
+
+  const handleDeleteProduct = () => {
+    handleClose();
+    handleDelete(product.id);
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    formData.append("id", product.id)
+    formData.append("isAvailable", String(product.isAvailable))
+    //formData.append("image", product.image);
+    formData.append("userId", product.userId);
+
     for (const [key, value] of formData) {
       console.dir(`${key}: ${value}\n`);
     }
 
+    handleEdit(product.id, formData);
     //handleClose();
   }
   return (
@@ -37,7 +49,7 @@ export function ProductEdit({ product, isOpen, handleClose, handleEdit }: props)
             product.image || "https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg"
           }
           alt="Notebook" />
-        <div className='basis-full flex flex-col justify-between gap-4 xl:pt-4'>
+        <div className='basis-full flex flex-col items-start gap-4 xl:pt-4'>
           <Input name="name" defaultValue={product.name} />
           <Rating />
           <Textarea name="description" defaultValue={product.description} className="grow text-sm resize-none" />
@@ -49,7 +61,7 @@ export function ProductEdit({ product, isOpen, handleClose, handleEdit }: props)
           >
             <Checkbox
               id="isAvailable"
-              name="isAvailable"
+              /* name="isAvailable" */
               defaultValue={String(product.isAvailable)}
               defaultChecked={product.isAvailable}
               onCheckedChange={(e) => console.log(e)}
@@ -59,7 +71,10 @@ export function ProductEdit({ product, isOpen, handleClose, handleEdit }: props)
           </Label>
           <div className='w-full flex justify-between items-center pt-2 border-t'>
             <Input name="price" defaultValue={product.price} className="w-auto" />
-            <Button>Salvar</Button>
+            <div className="space-x-2">
+              <Button type="button" onClick={handleDeleteProduct} variant={"destructive"}>Excluir</Button>
+              <Button>Salvar</Button>
+            </div>
           </div>
         </div>
       </form>

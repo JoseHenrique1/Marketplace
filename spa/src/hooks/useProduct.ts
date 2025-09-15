@@ -38,7 +38,9 @@ export function useProduct({ fetchingProductsOnMount=false }: props) {
 
   const handleDeleteProduct = async (id: string) => {
     const productDeleted = await deleteProduct(id);
+    console.dir("productDeleted", productDeleted);
     productDeleted && deleteProductStore(id);
+    console.dir("products", products);
   }
 
   const myProducts = useMemo(

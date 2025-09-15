@@ -17,10 +17,10 @@ export function ProductView({ product, isOpen, handleClose }: props) {
           product.image || "https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg"
         }
         alt="Notebook" />
-      <div className='basis-full grid grid-rows-[auto_auto_1fr_auto] gap-4 xl:pt-4'>
+      <div className='basis-full flex flex-col items-start gap-4 xl:pt-4'>
         <h1 className='font-semibold text-2xl'>{product.name}</h1>
         <Rating />
-        <p className="text-sm">
+        <p className="text-sm grow">
           {product.description}
         </p>
         <div className='w-full flex justify-between items-center pt-2 border-t'>
