@@ -1,4 +1,4 @@
-import LayoutDefault from "@/components/organisms/layout-default";
+import { LayoutDefault } from "@/components/organisms/layout-default";
 import { getUser } from "@/services/user-service";
 import type { User } from "@/types/user-type";
 import { useEffect, useState } from "react";

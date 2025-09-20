@@ -1,4 +1,4 @@
-import LayoutDefault from "@/components/organisms/layout-default";
+import { LayoutDefault } from "@/components/organisms/layout-default";
 
 export function Home() {
   return (

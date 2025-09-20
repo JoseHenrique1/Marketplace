@@ -1,6 +1,6 @@
 import { CardProduct } from "@/components/molecules/card-product";
 import { ProductDetails } from "@/components/organisms/product-details";
-import LayoutDefault from "@/components/organisms/layout-default";
+import { LayoutDefault } from "@/components/organisms/layout-default";
 import { Input } from "@/components/ui/input";
 import { useProduct } from "@/hooks/useProduct";
 
