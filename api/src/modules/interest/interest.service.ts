@@ -12,6 +12,10 @@ const getInterestPerUser = async (userId: string) => {
         where: {
             userId
         },
+        include: {
+          product: true,
+          user: true
+        }
     });
     return interests;
 }
@@ -21,6 +25,10 @@ const getInterestPerProduct = async (productId: string) => {
         where: {
             productId
         },
+        include: {
+          product: true,
+          user: true
+        }
     });
     return interests;
 }
