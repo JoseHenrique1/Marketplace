@@ -7,6 +7,58 @@ const postInterest = async (data: InterestType) => {
     return interest;
 }
 
+const getInterests = async (userId: string) => {
+  const interests = await prisma.interest.findMany({
+    where: {
+      OR: [
+        // Interesses DO usuário (quando ele demonstrou interesse em produtos de outros)
+        {
+          userId: userId
+        },
+        // Interesses NO usuário (quando outros demonstraram interesse nos produtos dele)
+        {
+          product: {
+            userId: userId
+          }
+        }
+      ]
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          city: true,
+          state: true,
+          whatsapp: true
+        }
+      },
+      product: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+              city: true,
+              state: true,
+              whatsapp: true
+            }
+          }
+        }
+      }
+    },
+    orderBy: {
+      product: {
+        name: 'asc'
+      }
+    }
+  });
+  
+  return interests;
+};
+
 const getInterestPerUser = async (userId: string) => {
     const interests = await prisma.interest.findMany({
         where: {
@@ -63,6 +115,7 @@ const patchInterest = async (data: InterestType) => {
 
 export const interestService = {
     postInterest,
+    getInterests,
     getInterestPerUser,
     getInterestPerProduct,
     deleteInterest,
