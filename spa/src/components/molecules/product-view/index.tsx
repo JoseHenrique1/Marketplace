@@ -2,6 +2,7 @@ import type { Product } from "@/types/product-type"
 import { Modal } from "../modal";
 import { Rating } from "../rating";
 import { Button } from "@/components/ui/button";
+import { useInterest } from "@/hooks/useInterest";
 
 interface props {
   product: Product;
@@ -9,6 +10,8 @@ interface props {
   handleClose: () => void
 }
 export function ProductView({ product, isOpen, handleClose }: props) {
+  const  { handleCreateInterest, isInterestedInProduct} = useInterest();
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className="flex flex-col gap-4 md:flex-row">
       <img
@@ -25,7 +28,9 @@ export function ProductView({ product, isOpen, handleClose }: props) {
         </p>
         <div className='w-full flex justify-between items-center pt-2 border-t'>
           <p>RS {product.price}</p>
-          <Button>Tenho interesse</Button>
+          <Button 
+          onClick={() => handleCreateInterest(product.id)}
+          disabled={isInterestedInProduct(product.id)}>Tenho interesse</Button>
         </div>
       </div>
     </Modal>

@@ -1,35 +1,34 @@
 import { createProductInterest, getInterests, getInterestsPerProduct, getInterestsPerUser, patchInterest } from "@/services/interest-service";
 import { useAuthStore } from "@/stores/auth-store";
-import { InterestStatus, type Interest } from "@/types/interest-types";
-import { useState } from "react";
-
+import { useInterestStore } from "@/stores/interest-store";
+import { InterestStatus } from "@/types/interest-types";
 export function useInterest() {
-  const [interests, setInterests] = useState<Interest[]>([]);
+  const { interests, setInterests, addInterest, deleteInterest } = useInterestStore();
   const { user } = useAuthStore();
 
   const handleLoadInterests = async () => {
     const interests = await getInterests();
     interests && setInterests(interests);
   }
-
-  const handleLoadInterestsPerUser = async () => {
-    if (user) {
-      const currentInterests = await getInterestsPerUser(user.id);
-      currentInterests && setInterests(currentInterests);
+  /* 
+    const handleLoadInterestsPerUser = async () => {
+      if (user) {
+        const currentInterests = await getInterestsPerUser(user.id);
+        currentInterests && setInterests(currentInterests);
+      }
     }
-  }
-
-  const handleLoadInterestsPerProduct = async (productId: string) => {
-    if (user) {
-      const currentInterests = await getInterestsPerProduct(productId);
-      currentInterests && setInterests(currentInterests);
-    }
-  }
+  
+    const handleLoadInterestsPerProduct = async (productId: string) => {
+      if (user) {
+        const currentInterests = await getInterestsPerProduct(productId);
+        currentInterests && setInterests(currentInterests);
+      }
+    } */
 
   const handleCreateInterest = async (productId: string) => {
     if (user) {
       const interest = await createProductInterest(productId, user.id);
-      interest && setInterests([...interests, interest]);
+      interest && addInterest(interest);
     }
   }
 
@@ -47,12 +46,31 @@ export function useInterest() {
     }
   }
 
-  return { 
+  const isInterestedInProduct = (productId: string) => {
+    if (user) {
+      return interests.some(interest =>
+        interest.productId === productId
+        &&
+        interest.userId === user.id
+      );
+    }
+
+    return false;
+  }
+
+  const myInterests = interests.filter(interest => interest.userId === user!.id);
+
+
+  const otherInterests = interests.filter(interest => interest.userId !== user!.id);
+
+  return {
     interests,
-    handleLoadInterestsPerUser,
-    handleLoadInterestsPerProduct,
+    myInterests,
+    otherInterests,
+    isInterestedInProduct,
+    handleLoadInterests,
     handleCreateInterest,
     handleAcceptInterest,
     handleRejectInterest
-   };
+  };
 }
